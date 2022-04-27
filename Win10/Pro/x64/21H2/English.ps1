@@ -42,6 +42,7 @@ Get-WindowsCapability -Path "${env:TMP}\Win${WinRelease}_${FidoRelease}_${WinLci
     $obj = $_
 
     [System.String]$Name = $obj.Name
+    [System.String]$State = $obj.State
     Write-Output "Verifying WindowsCapability: ${Name}"
     
     try
@@ -59,6 +60,7 @@ Get-WindowsCapability -Path "${env:TMP}\Win${WinRelease}_${FidoRelease}_${WinLci
                 id = $Id
                 uuid = $RecordFound.uuid
                 name = $RecordFound.name
+                state = $RecordFound.state
                 arch = $newArray
                 lcid = @($RecordFound.lcid)
                 supportedWindowsVersions = @($RecordFound.supportedWindowsVersions)
@@ -81,6 +83,7 @@ Get-WindowsCapability -Path "${env:TMP}\Win${WinRelease}_${FidoRelease}_${WinLci
                 id = $Id
                 uuid = $RecordFound.uuid
                 name = $RecordFound.name
+                state = $RecordFound.state
                 arch = @($RecordFound.arch)
                 lcid = $newArray
                 supportedWindowsVersions = @($RecordFound.supportedWindowsVersions)
@@ -103,6 +106,7 @@ Get-WindowsCapability -Path "${env:TMP}\Win${WinRelease}_${FidoRelease}_${WinLci
                 id = $Id
                 uuid = $RecordFound.uuid
                 name = $RecordFound.name
+                state = $RecordFound.state
                 arch = @($RecordFound.arch)
                 lcid = @($RecordFound.lcid)
                 supportedWindowsVersions = $newArray
@@ -125,6 +129,7 @@ Get-WindowsCapability -Path "${env:TMP}\Win${WinRelease}_${FidoRelease}_${WinLci
                 id = $Id
                 uuid = $RecordFound.uuid
                 name = $RecordFound.name
+                state = $RecordFound.state
                 arch = @($RecordFound.arch)
                 lcid = @($RecordFound.lcid)
                 supportedWindowsVersions = @($RecordFound.supportedWindowsVersions)
@@ -147,6 +152,7 @@ Get-WindowsCapability -Path "${env:TMP}\Win${WinRelease}_${FidoRelease}_${WinLci
                 id = $Id
                 uuid = $RecordFound.uuid
                 name = $RecordFound.name
+                state = $RecordFound.state
                 arch = @($RecordFound.arch)
                 lcid = @($RecordFound.lcid)
                 supportedWindowsVersions = @($RecordFound.supportedWindowsVersions)
@@ -167,6 +173,7 @@ Get-WindowsCapability -Path "${env:TMP}\Win${WinRelease}_${FidoRelease}_${WinLci
             id = 0
             uuid = [System.Guid]::NewGuid().Guid.ToString()
             name = $Name
+            state = $State
             arch = @($WinArch)
             lcid = @($WinLcid)
             supportedWindowsVersions = @($FidoRelease)
