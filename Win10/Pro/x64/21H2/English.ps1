@@ -17,11 +17,11 @@ $CHeaders = @{accept = 'application/json'}
 
 <# CONFIG #>
 [System.String]$WinRelease = "10"
-[System.String]$WinEdition = "Pro"
+[System.String]$WinEdition = "Pro"  # WindowsEdition (Home, Pro, Pro_N, Education, Education_N, Enterprise, Enterprise_N, Pro_Education, Pro_Education_N, Pro_Workstations,Pro_N_Workstations, Enterprise_LTSC)
 [System.String]$WinArch = "x64"
-[System.String]$FidoRelease = "21H2"
+[System.String]$FidoRelease = "21H2"  # WindowsVersion (v21H2, v21H1, v20H2, v2004, v1909, v1903, v1809, v1809, v1803, v1709, v1703, v1607, v1511, v1507)
 [System.String]$WinLcid = "English"
-[System.String]$SupportedWinRelease = "Windows_10"
+[System.String]$SupportedWinRelease = "Windows_10"  # WindowsRelease (Windows_7, Windows_8, Windows_8_1, Windows_10, Windows_11)
 
 <# SETUP #>
 [System.String]$DownloadLink = & $FidoFile -Win $WinRelease -Rel $FidoRelease -Ed $WinEdition -Lang $WinLcid -Arch $WinArch -GetUrl
@@ -44,59 +44,33 @@ Get-WindowsCapability -Path "${env:TMP}\Win${WinRelease}_${FidoRelease}_${WinLci
     [System.String]$Name = $obj.Name
     [System.String]$State = $obj.State
     Write-Output "Verifying WindowsCapability: ${Name}"
-    
+    switch ($State)
+    {
+        'Installed' {
+            $Enabled = $true
+        }
+        'NotPresent' {
+            $Enabled = $false
+        }
+        Default {
+            $Enabled = $false
+        }
+    }
+
+
+    # public int Id { get; set; }
+    # public Guid UUID { get; set; }
+    # public string Name { get; set; } = null!;  // this object does not have a UID
+    # public bool Present { get; set; }
+    # public string[] SupportedWindowsVersions { get; set; }  // WindowsVersion (v21H2, v21H1, v20H2, v2004, v1909, v1903, v1809, v1809, v1803, v1709, v1703, v1607, v1511, v1507)
+    # public string[] SupportedWindowsEditions { get; set; }  // WindowsEdition (Home, Pro, Pro_N, Education, Education_N, Enterprise, Enterprise_N, Pro_Education, Pro_Education_N, Pro_Workstations,Pro_N_Workstations, Enterprise_LTSC)
+
     try
     {
         Invoke-RestMethod -Uri "${env:API_URI}/v1/windowscapability/name/${Name}" -Method Get -Headers $CHeaders -ErrorAction Stop | Out-Null
 
         $RecordFound = Invoke-RestMethod -Uri "${env:API_URI}/v1/WindowsCapability/name/${Name}" -Method Get -Headers $CHeaders
         [System.Int64]$Id = $RecordFound.id
-
-        <# ARCH #>
-        if (@($RecordFound.arch) -notcontains $WinArch)
-        {
-            $newArray = @($RecordFound.arch) + $WinArch
-            $Body = @{
-                id = $Id
-                uuid = $RecordFound.uuid
-                name = $RecordFound.name
-                state = $RecordFound.state
-                arch = $newArray
-                lcid = @($RecordFound.lcid)
-                supportedWindowsVersions = @($RecordFound.supportedWindowsVersions)
-                supportedWindowsEditions = @($RecordFound.supportedWindowsEditions)
-                supportedWindowsReleases = @($RecordFound.supportedWindowsReleases)
-            } | ConvertTo-Json
-            Write-Output "<| Test WinArch"
-            Invoke-RestMethod -Uri "${env:API_URI}/v1/WindowsCapability/${Id}" -Method Put -UseBasicParsing -Body $Body -ContentType 'application/json' -ErrorAction Stop
-        }
-        else
-        {
-            Write-Output "  => WinArch OK"
-        }
-
-        <# LCID #>
-        if (@($RecordFound.lcid) -notcontains $WinLcid)
-        {
-            $newArray = @($RecordFound.lcid) + $WinLcid
-            $Body = @{
-                id = $Id
-                uuid = $RecordFound.uuid
-                name = $RecordFound.name
-                state = $RecordFound.state
-                arch = @($RecordFound.arch)
-                lcid = $newArray
-                supportedWindowsVersions = @($RecordFound.supportedWindowsVersions)
-                supportedWindowsEditions = @($RecordFound.supportedWindowsEditions)
-                supportedWindowsReleases = @($RecordFound.supportedWindowsReleases)
-            } | ConvertTo-Json
-            Write-Output "<| Test Lcid"
-            Invoke-RestMethod -Uri "${env:API_URI}/v1/WindowsCapability/${Id}" -Method Put -UseBasicParsing -Body $Body -ContentType 'application/json' -ErrorAction Stop
-        }
-        else
-        {
-            Write-Output "  => Lcid OK"
-        }
 
         <# SUPPORTEDWINDOWSVERSIONS #>
         if (@($RecordFound.supportedWindowsVersions) -notcontains $FidoRelease)
@@ -106,9 +80,7 @@ Get-WindowsCapability -Path "${env:TMP}\Win${WinRelease}_${FidoRelease}_${WinLci
                 id = $Id
                 uuid = $RecordFound.uuid
                 name = $RecordFound.name
-                state = $RecordFound.state
-                arch = @($RecordFound.arch)
-                lcid = @($RecordFound.lcid)
+                present = $RecordFound.state
                 supportedWindowsVersions = $newArray
                 supportedWindowsEditions = @($RecordFound.supportedWindowsEditions)
                 supportedWindowsReleases = @($RecordFound.supportedWindowsReleases)
@@ -129,9 +101,7 @@ Get-WindowsCapability -Path "${env:TMP}\Win${WinRelease}_${FidoRelease}_${WinLci
                 id = $Id
                 uuid = $RecordFound.uuid
                 name = $RecordFound.name
-                state = $RecordFound.state
-                arch = @($RecordFound.arch)
-                lcid = @($RecordFound.lcid)
+                present = $RecordFound.state
                 supportedWindowsVersions = @($RecordFound.supportedWindowsVersions)
                 supportedWindowsEditions = $newArray
                 supportedWindowsReleases = @($RecordFound.supportedWindowsReleases)
@@ -152,9 +122,7 @@ Get-WindowsCapability -Path "${env:TMP}\Win${WinRelease}_${FidoRelease}_${WinLci
                 id = $Id
                 uuid = $RecordFound.uuid
                 name = $RecordFound.name
-                state = $RecordFound.state
-                arch = @($RecordFound.arch)
-                lcid = @($RecordFound.lcid)
+                present = $RecordFound.state
                 supportedWindowsVersions = @($RecordFound.supportedWindowsVersions)
                 supportedWindowsEditions = @($RecordFound.supportedWindowsEditions)
                 supportedWindowsReleases = $newArray
@@ -169,14 +137,13 @@ Get-WindowsCapability -Path "${env:TMP}\Win${WinRelease}_${FidoRelease}_${WinLci
     }
     catch
     {
+        $SupportedWindowsRelease = "v" + $FidoRelease
         $Body = @{
             id = 0
             uuid = [System.Guid]::NewGuid().Guid.ToString()
             name = $Name
-            state = $State
-            arch = @($WinArch)
-            lcid = @($WinLcid)
-            supportedWindowsVersions = @($FidoRelease)
+            present = $Enabled
+            supportedWindowsVersions = @($SupportedWindowsRelease)
             supportedWindowsEditions = @($WinEdition)
             supportedWindowsReleases = @($SupportedWinRelease)
         } | ConvertTo-Json
