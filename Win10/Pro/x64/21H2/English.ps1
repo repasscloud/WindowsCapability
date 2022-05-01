@@ -147,7 +147,14 @@ Get-WindowsCapability -Path "${env:TMP}\Win${WinRelease}_${FidoRelease}_${WinLci
             supportedWindowsEditions = @($WinEdition)
             supportedWindowsReleases = @($SupportedWinRelease)
         } | ConvertTo-Json
-        Invoke-RestMethod -Uri "${env:API_URI}/v1/WindowsCapability" -Method Post -UseBasicParsing -Body $Body -ContentType 'application/json' -ErrorAction Stop
+        try
+        {
+            Invoke-RestMethod -Uri "${env:API_URI}/v1/WindowsCapability" -Method Post -UseBasicParsing -Body $Body -ContentType 'application/json' -ErrorAction Stop
+        }
+        catch
+        {
+            Write-Warning "Error: $($_.Exception)"
+        }
     }
 }
 
