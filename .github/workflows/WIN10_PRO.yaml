@@ -2,7 +2,7 @@ name: WIN10 PRO
 
 on:
   push:
-    branches: [ 'main' ]
+    branches: [ 'dev' ]
   workflow_dispatch:
 
 jobs:
