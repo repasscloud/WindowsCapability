@@ -17,7 +17,7 @@ jobs:
       run: ./Win10/Pro/x64/21H1/Arabic.ps1
       env:
         API_URI: ${{ secrets.API_DEV_URL }}
-  
+
   x64_21H1_Brazilian_Portuguese:
     needs: x64_21H1_Arabic
     runs-on: windows-2019

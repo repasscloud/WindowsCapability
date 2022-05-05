@@ -4,6 +4,8 @@ on:
   push:
     branches: [ 'dev' ]
   workflow_dispatch:
+  schedule:
+    - cron: '11 9 5,20 * *'  # At 09:11 on day-of-month 5 and 20
 
 jobs:
   x64_21H2_English:
