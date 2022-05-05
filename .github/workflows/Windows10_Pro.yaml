@@ -1,4 +1,4 @@
-name: Windows 10 Home
+name: Windows 10 Pro
 
 on:
   push:
