@@ -72,13 +72,13 @@ Get-WindowsCapability -Path "${env:TMP}\Win${WinRelease}_${FidoRelease}_${WinLci
                 id = $Id
                 uuid = $RecordFound.uuid
                 name = $RecordFound.name
-                present = $RecordFound.state
+                present = [System.Boolean]$RecordFound.state
                 supportedWindowsVersions = $newArray
                 supportedWindowsEditions = @($RecordFound.supportedWindowsEditions)
                 supportedWindowsReleases = @($RecordFound.supportedWindowsReleases)
             } | ConvertTo-Json
             Write-Output "<| Test SupportedWindowsVersions"
-            Invoke-RestMethod -Uri "${env:API_URI}/v1/WindowsCapability/${Id}" -Method Put -UseBasicParsing -Body $Body -ContentType 'application/json' -ErrorAction Stop
+            Invoke-RestMethod -Uri "${env:API_URI}/v1/WindowsCapability/${Id}" -Method Put -Body $Body -ContentType 'application/json' -ErrorAction Stop
         }
         else
         {
@@ -93,7 +93,7 @@ Get-WindowsCapability -Path "${env:TMP}\Win${WinRelease}_${FidoRelease}_${WinLci
                 id = $Id
                 uuid = $RecordFound.uuid
                 name = $RecordFound.name
-                present = $RecordFound.state
+                present = [System.Boolean]$RecordFound.state
                 supportedWindowsVersions = @($RecordFound.supportedWindowsVersions)
                 supportedWindowsEditions = $newArray
                 supportedWindowsReleases = @($RecordFound.supportedWindowsReleases)
@@ -114,7 +114,7 @@ Get-WindowsCapability -Path "${env:TMP}\Win${WinRelease}_${FidoRelease}_${WinLci
                 id = $Id
                 uuid = $RecordFound.uuid
                 name = $RecordFound.name
-                present = $RecordFound.state
+                present = [System.Boolean]$RecordFound.state
                 supportedWindowsVersions = @($RecordFound.supportedWindowsVersions)
                 supportedWindowsEditions = @($RecordFound.supportedWindowsEditions)
                 supportedWindowsReleases = $newArray
@@ -133,7 +133,7 @@ Get-WindowsCapability -Path "${env:TMP}\Win${WinRelease}_${FidoRelease}_${WinLci
             id = 0
             uuid = [System.Guid]::NewGuid().Guid.ToString()
             name = $Name
-            present = $Enabled
+            present = [System.Boolean]$Enabled
             supportedWindowsVersions = @($FidoRelease)
             supportedWindowsEditions = @($WinEdition)
             supportedWindowsReleases = @($SupportedWinRelease)
