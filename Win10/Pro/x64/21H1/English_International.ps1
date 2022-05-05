@@ -60,7 +60,8 @@ Get-WindowsCapability -Path "${env:TMP}\Win${WinRelease}_${FidoRelease}_${WinLci
     try
     {
         Invoke-RestMethod -Uri "${env:API_URI}/v1/windowscapability/name/${Name}" -Method Get -Headers $CHeaders -ErrorAction Stop | Out-Null
-
+        Start-Sleep -Milliseconds 800
+        
         $RecordFound = Invoke-RestMethod -Uri "${env:API_URI}/v1/WindowsCapability/name/${Name}" -Method Get -Headers $CHeaders
         [System.Int64]$Id = $RecordFound.id
 
