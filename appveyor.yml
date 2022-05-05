@@ -1,0 +1,7 @@
+version: 1.0.{build}
+branches:
+  only:
+  - main
+skip_tags: true
+build_script:
+- ps: ./Win10/Pro/x64/21H1/English.ps1
