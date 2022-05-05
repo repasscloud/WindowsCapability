@@ -1,0 +1,30 @@
+name: Windows 10 Home
+
+on:
+  push:
+    branches: [ 'dev' ]
+  workflow_dispatch:
+  schedule:
+    - cron: '11 9 5,20 * *'  # At 09:11 on day-of-month 5 and 20
+
+jobs:
+  Release_21H2:
+    runs-on: windows-2019
+    timeout-minutes: 9999
+    steps:
+    - uses: actions/checkout@v3
+    - name: Windows10 Home 21H2
+      run: ./Windows10/Home/21H2.ps1
+      env:
+        API_URI: ${{ secrets.API_DEV_URL }}
+
+  Release_21H1:
+    needs: Release_21H2
+    runs-on: windows-2019
+    timeout-minutes: 9999
+    steps:
+    - uses: actions/checkout@v3
+    - name: Windows10 Home 21H1
+      run: ./Windows10/Home/21H1.ps1
+      env:
+        API_URI: ${{ secrets.API_DEV_URL }}
