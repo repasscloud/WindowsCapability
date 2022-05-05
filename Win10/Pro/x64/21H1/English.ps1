@@ -59,9 +59,9 @@ Get-WindowsCapability -Path "${env:TMP}\Win${WinRelease}_${FidoRelease}_${WinLci
 
     try
     {
-        Invoke-RestMethod -Uri "https://engine.api.dev.optechx-data.com/v1/windowscapability/name/${Name}" -Method Get -Headers $CHeaders -ErrorAction Stop | Out-Null
+        Invoke-RestMethod -Uri "${env:API_URI}/v1/windowscapability/name/${Name}" -Method Get -Headers $CHeaders -ErrorAction Stop | Out-Null
         Write-Output "Record found"
-        $RecordFound = Invoke-RestMethod -Uri "https://engine.api.dev.optechx-data.com/v1/WindowsCapability/name/${Name}" -Method Get -Headers $CHeaders
+        $RecordFound = Invoke-RestMethod -Uri "${env:API_URI}/v1/WindowsCapability/name/${Name}" -Method Get -Headers $CHeaders
         [System.Int64]$Id = $RecordFound.id
 
         <# SUPPORTEDWINDOWSVERSIONS #>
@@ -78,7 +78,7 @@ Get-WindowsCapability -Path "${env:TMP}\Win${WinRelease}_${FidoRelease}_${WinLci
                 supportedWindowsReleases = @($RecordFound.supportedWindowsReleases)
             } | ConvertTo-Json
             Write-Output "<| Test SupportedWindowsVersions"
-            Invoke-RestMethod -Uri "https://engine.api.dev.optechx-data.com/v1/WindowsCapability/${Id}" -Method Put -Body $Body -ContentType 'application/json' -ErrorAction Stop
+            Invoke-RestMethod -Uri "${env:API_URI}/v1/WindowsCapability/${Id}" -Method Put -Body $Body -ContentType 'application/json' -ErrorAction Stop
         }
         else
         {
@@ -99,7 +99,7 @@ Get-WindowsCapability -Path "${env:TMP}\Win${WinRelease}_${FidoRelease}_${WinLci
                 supportedWindowsReleases = @($RecordFound.supportedWindowsReleases)
             } | ConvertTo-Json
             Write-Output "<| Test SupportedWindowsEditions"
-            Invoke-RestMethod -Uri "https://engine.api.dev.optechx-data.com/v1/WindowsCapability/${Id}" -Method Put -UseBasicParsing -Body $Body -ContentType 'application/json' -ErrorAction Stop
+            Invoke-RestMethod -Uri "${env:API_URI}/v1/WindowsCapability/${Id}" -Method Put -UseBasicParsing -Body $Body -ContentType 'application/json' -ErrorAction Stop
         }
         else
         {
@@ -120,7 +120,7 @@ Get-WindowsCapability -Path "${env:TMP}\Win${WinRelease}_${FidoRelease}_${WinLci
                 supportedWindowsReleases = $newArray
             } | ConvertTo-Json
             Write-output "<| Test SupportedWindowsReleases"
-            Invoke-RestMethod -Uri "https://engine.api.dev.optechx-data.com/v1/WindowsCapability/${Id}" -Method Put -UseBasicParsing -Body $Body -ContentType 'application/json' -ErrorAction Stop
+            Invoke-RestMethod -Uri "${env:API_URI}/v1/WindowsCapability/${Id}" -Method Put -UseBasicParsing -Body $Body -ContentType 'application/json' -ErrorAction Stop
         }
         else
         {
@@ -140,7 +140,7 @@ Get-WindowsCapability -Path "${env:TMP}\Win${WinRelease}_${FidoRelease}_${WinLci
         } | ConvertTo-Json
         try
         {
-            Invoke-RestMethod -Uri "https://engine.api.dev.optechx-data.com/v1/WindowsCapability" -Method Post -UseBasicParsing -Body $Body -ContentType 'application/json' -ErrorAction Stop
+            Invoke-RestMethod -Uri "${env:API_URI}/v1/WindowsCapability" -Method Post -UseBasicParsing -Body $Body -ContentType 'application/json' -ErrorAction Stop
         }
         catch
         {
