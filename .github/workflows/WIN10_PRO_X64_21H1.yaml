@@ -17,6 +17,7 @@ jobs:
         API_URI: ${{ secrets.API_DEV_URL }}
   
   x64_21H1_Brazilian_Portuguese:
+    needs: x64_21H1_Arabic
     runs-on: windows-2019
     timeout-minutes: 9999
     steps:
@@ -27,6 +28,7 @@ jobs:
         API_URI: ${{ secrets.API_DEV_URL }}
 
   x64_21H1_Bulgarian:
+    needs: x64_21H1_Brazilian_Portuguese
     runs-on: windows-2019
     timeout-minutes: 9999
     steps:
@@ -37,6 +39,7 @@ jobs:
         API_URI: ${{ secrets.API_DEV_URL }}
 
   x64_21H1_Croatian:
+    needs: x64_21H1_Bulgarian
     runs-on: windows-2019
     timeout-minutes: 9999
     steps:
@@ -47,6 +50,7 @@ jobs:
         API_URI: ${{ secrets.API_DEV_URL }}
 
   x64_21H1_Czech:
+    needs: x64_21H1_Croatian
     runs-on: windows-2019
     timeout-minutes: 9999
     steps:
@@ -57,6 +61,7 @@ jobs:
         API_URI: ${{ secrets.API_DEV_URL }}
 
   x64_21H1_Danish:
+    needs: x64_21H1_Czech
     runs-on: windows-2019
     timeout-minutes: 9999
     steps:
@@ -67,6 +72,7 @@ jobs:
         API_URI: ${{ secrets.API_DEV_URL }}
 
   x64_21H1_Dutch:
+    needs: x64_21H1_Danish
     runs-on: windows-2019
     timeout-minutes: 9999
     steps:
@@ -77,6 +83,7 @@ jobs:
         API_URI: ${{ secrets.API_DEV_URL }}
 
   x64_21H1_English_International:
+    needs: x64_21H1_Dutch
     runs-on: windows-2019
     timeout-minutes: 9999
     steps:
@@ -87,6 +94,7 @@ jobs:
         API_URI: ${{ secrets.API_DEV_URL }}
 
   x64_21H1_English:
+    needs: x64_21H1_English_International
     runs-on: windows-2019
     timeout-minutes: 9999
     steps:
@@ -97,6 +105,7 @@ jobs:
         API_URI: ${{ secrets.API_DEV_URL }}
 
   x64_21H1_Finnish:
+    needs: x64_21H1_English
     runs-on: windows-2019
     timeout-minutes: 9999
     steps:
