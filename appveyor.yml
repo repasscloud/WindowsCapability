@@ -1,7 +1,7 @@
 version: 1.0.{build}
 branches:
   only:
-  - main
+  - ci
 skip_tags: true
 environment:
   API_URI:
