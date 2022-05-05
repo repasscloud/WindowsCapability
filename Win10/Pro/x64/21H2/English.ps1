@@ -57,14 +57,6 @@ Get-WindowsCapability -Path "${env:TMP}\Win${WinRelease}_${FidoRelease}_${WinLci
         }
     }
 
-
-    # public int Id { get; set; }
-    # public Guid UUID { get; set; }
-    # public string Name { get; set; } = null!;  // this object does not have a UID
-    # public bool Present { get; set; }
-    # public string[] SupportedWindowsVersions { get; set; }  // WindowsVersion (v21H2, v21H1, v20H2, v2004, v1909, v1903, v1809, v1809, v1803, v1709, v1703, v1607, v1511, v1507)
-    # public string[] SupportedWindowsEditions { get; set; }  // WindowsEdition (Home, Pro, Pro_N, Education, Education_N, Enterprise, Enterprise_N, Pro_Education, Pro_Education_N, Pro_Workstations,Pro_N_Workstations, Enterprise_LTSC)
-
     try
     {
         Invoke-RestMethod -Uri "${env:API_URI}/v1/windowscapability/name/${Name}" -Method Get -Headers $CHeaders -ErrorAction Stop | Out-Null

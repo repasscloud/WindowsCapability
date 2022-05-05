@@ -1,0 +1,17 @@
+name: WIN10 PRO X64 21H1
+
+on:
+  push:
+    branches: [ 'dev' ]
+  workflow_dispatch:
+
+jobs:
+  x64_21H1_English:
+    runs-on: windows-2019
+    timeout-minutes: 60
+    steps:
+    - uses: actions/checkout@v3
+    - name: Win10 Pro x64 21H1 English
+      run: ./Win10/Pro/x64/21H1/English.ps1
+      env:
+        API_URI: ${{ secrets.API_DEV_URL }}
