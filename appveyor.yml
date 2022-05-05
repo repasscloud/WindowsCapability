@@ -5,6 +5,6 @@ branches:
 skip_tags: true
 environment:
   API_URI:
-    secure: 09rVGQX6UZVLPq2SyXvcvX6F5s8dIq5QLyfbJEvp466HYtfrHymnq8NZCCCeMGdX
+    secure: 09rVGQX6UZVLPq2SyXvcvX6F5s8dIq5QLyfbJEvp465H72DFLlsl5VruTU4dfKvX
 build_script:
 - ps: ./Win10/Pro/x64/21H1/English.ps1
