@@ -146,10 +146,19 @@ Get-WindowsCapability -Path "${env:TMP}\Win${WinRelease}_${FidoRelease}_${WinLci
             supportedWindowsEditions = @($WinEdition)
             supportedWindowsReleases = @($SupportedWinRelease)
         } | ConvertTo-Json
-        Invoke-RestMethod -Uri "${env:API_URI}/v1/WindowsCapability" -Method Post -UseBasicParsing -Body $Body -ContentType 'application/json' -ErrorAction Stop
+        try
+        {
+            Invoke-RestMethod -Uri "${env:API_URI}/v1/WindowsCapability" -Method Post -UseBasicParsing -Body $Body -ContentType 'application/json' -ErrorAction Stop
+        }
+        catch
+        {
+            Write-Warning "Error: $($_.Exception)"
+        }
     }
 }
 
 <# CLEAN UP #>
-DisMount-WindowsImage -Path "${env:TMP}\Win${WinRelease}_${FidoRelease}_${WinLcid}_${WinArch}_MOUNT" -Discard
+Dismount-WindowsImage -Path "${env:TMP}\Win${WinRelease}_${FidoRelease}_${WinLcid}_${WinArch}_MOUNT" -Discard
 Remove-Item -Path "${env:TMP}\Win${WinRelease}_${FidoRelease}_${WinLcid}_${WinArch}_MOUNT" -Recurse -Force -Confirm:$false
+Dismount-DiskImage -ImagePath $IsoFile -Confirm:$false
+Remove-Item -Path $IsoFile -Confirm:$false -Force
